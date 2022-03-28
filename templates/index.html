@@ -1,0 +1,143 @@
+<html lang="en">
+
+<head>
+    <title>Topic Paper Regression</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+</head>
+<body>
+
+
+<header>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+
+    <div class="collapse bg-dark" id="navbarHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-md-7 py-4">
+                    <h4 class="text-white">About</h4>
+                    <p class="text-muted">Made by Kien - Quang</p>
+                </div>
+                <div class="col-sm-4 offset-md-1 py-4">
+                    <h4 class="text-white">Contact</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="https://www.facebook.com/Phatan.pa/" class="text-white">Like on Facebook</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar navbar-dark bg-dark box-shadow">
+        <div class="container d-flex justify-content-between">
+            <a href="#" class="navbar-brand d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                </svg>
+                <strong>Chào mọi người</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
+                    aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+
+<section class="jumbotron text-center" style="height: 350px">
+    <div class="container">
+        <h1 class="jumbotron-heading">URL Topic Regression</h1>
+        <p class="lead text-muted">Có 10 loại topic: Xe cộ - Kinh Doanh - Sức khoẻ - Giáo dục - Khoa học - Giải trí
+            - Pháp luật - du lịch - Thế giới - Thể Thao</p>
+        {#            <input type="text" class="form-control" name="" id=""#}
+        {#                   aria-describedby="helpId" placeholder="Nhập url...">#}
+        {#            <button class="btn btn-danger mt-1">Enter</button>#}
+
+        <form method="post" action="#">
+                 {% csrf_token %}
+                <textarea type="text" id="duongdan" name="duongdan" class="form-control form-control-lg"
+                          placeholder="Nhập url..." rows="4"></textarea>
+
+            {# Button tìm kiếm #}
+
+            <button type="submit" class="btn btn-danger mt-1">
+                <span class="icon-search icon mr-2"></span>Analyze
+            </button>
+
+        </form>
+    </div>
+</section>
+
+
+<section class="" id="next-section">
+    <div class="container">
+        <div class="row">
+            {% if check %}
+                {% for i in l %}
+                    <div class="col-6 col-md-6 col-lg-6 mb-6 mb-lg-6">
+                        <a class="block__16443 text-center d-block">
+                            <span class="custom-icon mx-auto"><span class="icon-paint-brush d-block"></span></span>
+                            <h6 class = ""><a href="{{ i.2 }}">{{ i.2|urlizetrunc:50 }}</a></h6>
+                            <canvas id={{ i.1 }} width="400" height="400"></canvas>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+        </div>
+
+
+    </div>
+</section>
+
+<script>
+    function draw_bar(data_visual, id) {
+
+        var barData = {
+            labels: data_visual[0],
+            datasets: [
+                {
+                    fillColor: "#48A497",
+                    strokeColor: "#48A4D1",
+                    data: data_visual[1]
+                }
+            ]
+        }
+        // get bar chart canvas
+        var income = document.getElementById(id).getContext("2d");
+        // draw bar chart
+        new Chart(income).Bar(barData);
+    }
+
+    ok = {{ l | safe }}
+    console.log(ok);
+    for (let i = 0; i < ok.length; i++) {
+
+        draw_bar(ok[i][0], ok[i][1]);
+
+    }
+
+
+</script>
+
+<!-- SCRIPTS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
